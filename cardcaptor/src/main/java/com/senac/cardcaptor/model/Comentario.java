@@ -1,5 +1,7 @@
 package com.senac.cardcaptor.model;
 
+import lombok.Data;
+
 /**
  *
  * @author elisa
@@ -8,7 +10,7 @@ package com.senac.cardcaptor.model;
 public class Comentario {
     
     private Integer id;
-    private Photocard photocard;
+    private Integer photocardId;
     private String comentario;
 
 }

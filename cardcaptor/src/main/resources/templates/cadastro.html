@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cardcaptor - Cadastro de Photocards</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Cadastre um Photocard</h1>
+
+        <form th:action="@{/cadastro}" method="get"> <p>Grupo:
+                <select name="grupo" onchange="this.form.submit()">
+                    <option value="">Selecione um Grupo</option>
+                    <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
+                </select>
+            </p>
+        </form>
+
+        <form th:action="@{/salvar}" method="post" th:object="${photocard}">
+            <div>
+                <p>Nome: <input type="text" th:field="*{nome}" /></p>
+                <p>Tipo:
+                    <select th:field="*{tipo}">
+                        <option th:each="tipo : ${T(com.senac.cardcaptor.model.TipoPhotocard).values()}" th:value="${tipo}" th:text="${tipo}">Selecione</option>
+                    </select>
+                </p>
+                <p>Loja: <input type="text" th:field="*{loja}" /></p>
+                <p>Foto (URL): <input type="text" th:field="*{foto}" /></p>
+                <p>Idol:
+                    <select th:field="*{idol}">
+                        <option value="">Selecione um Idol</option>
+                        <option th:each="idol : ${listaIdols}" th:value="${idol.id}" th:text="${idol.nome}">Selecione</option>
+                    </select>
+                </p>
+            </div>
+            <button type="submit">Cadastrar</button>
+            <br>
+        </form>
+
+        <a th:href="@{/}"><button type="button">Voltar para o Início</button></a>
+
+    </body>
+</html>
