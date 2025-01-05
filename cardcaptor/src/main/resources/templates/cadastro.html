@@ -1,61 +1,60 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Cardcaptor - Cadastro de Photocards</title>
-    <meta charset="UTF-8">
-</head>
-<body>
-    <h1>Cadastre um Photocard</h1>
+    <head>
+        <title>Cardcaptor - Cadastro de Photocards</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Cadastre um Photocard</h1>
 
-    <form th:action="@{/cadastro}" method="get">
-        <p>Grupo:
-            <select id="selectGrupo" name="grupo">
-                <option value="">Selecione um Grupo</option>
-                <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
-            </select>
-        </p>
-    </form>
+        <form th:action="@{/salvar}" method="post" th:object="${photocard}">
+            <div>
+                <p>Nome: <input type="text" th:field="*{nome}" required/></p>
+                <p>Tipo:
+                    <select th:field="*{tipo}" required>
+                        <option value="">Selecione um tipo</option>
+                        <option th:each="tipo : ${T(com.senac.cardcaptor.model.TipoPhotocard).values()}"
+                                th:value="${tipo.name()}"
+                                th:text="${tipo.descricao}">
+                        </option>
+                    </select>
+                </p>
+                <p>Loja: <input type="text" th:field="*{loja}" /></p>
+                <p>Foto (URL): <input type="text" th:field="*{foto}" /></p>
+                <p>Grupo:
+                    <select id="selectGrupo" name="grupoId" required> <option value="">Selecione um Grupo</option>
+                        <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
+                    </select>
+                </p>
+                <p>Idol:
+                    <select id="selectIdol" name="idolId" required> <option value="">Selecione um Idol</option></select>
+                </p>
+            </div>
+            <button type="submit">Cadastrar</button>
+            <br>
+        </form>
 
-    <form th:action="@{/salvar}" method="post" th:object="${photocard}">
-        <div>
-            <p>Nome: <input type="text" th:field="*{nome}" /></p>
-            <p>Tipo:
-                <select th:field="*{tipo}">
-                    <option th:each="tipo : ${tiposPhotocard}" th:value="${tipo}" th:text="${tipo}"></option>
-                </select>
-            </p>
-            <p>Loja: <input type="text" th:field="*{loja}" /></p>
-            <p>Foto (URL): <input type="text" th:field="*{foto}" /></p>
-            <p>Idol:
-                <select id="selectIdol" th:field="*{idol}"> <option value="">Selecione um Idol</option></select>
-            </p>
-        </div>
-        <button type="submit">Cadastrar</button>
-        <br>
-    </form>
+        <a th:href="@{/}"><button type="button">Voltar para o Início</button></a>
 
-    <a th:href="@{/}"><button type="button">Voltar para o Início</button></a>
+        <script th:inline="javascript">
+            const todosIdols = /*[[${listaIdols}]]*/ [];
+            const selectGrupo = document.getElementById('selectGrupo');
+            const selectIdol = document.getElementById('selectIdol');
 
-    <script th:inline="javascript">
-        const todosIdols = /*[[${listaIdols}]]*/ [];
+            selectGrupo.addEventListener('change', function () {
+                const grupoId = parseInt(this.value);
+                selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
 
-        const selectGrupo = document.getElementById('selectGrupo');
-        const selectIdol = document.getElementById('selectIdol');
-
-        selectGrupo.addEventListener('change', function () {
-            const grupoId = parseInt(this.value);
-            selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
-
-            if (grupoId) {
-                const idolsFiltrados = todosIdols.filter(idol => idol.grupo.id === grupoId);
-                idolsFiltrados.forEach(idol => {
-                    const option = document.createElement('option');
-                    option.value = idol.id;
-                    option.text = idol.nome;
-                    selectIdol.appendChild(option);
-                });
-            }
-        });
-    </script>
-</body>
+                if (grupoId) {
+                    const idolsFiltrados = todosIdols.filter(idol => idol.grupo.id === grupoId);
+                    idolsFiltrados.forEach(idol => {
+                        const option = document.createElement('option');
+                        option.value = idol.id;
+                        option.text = idol.nome;
+                        selectIdol.appendChild(option);
+                    });
+                }
+            });
+        </script>
+    </body>
 </html>

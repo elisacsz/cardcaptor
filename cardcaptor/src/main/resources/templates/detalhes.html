@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Detalhes do Photocard</title>
+        <meta charset="UTF-8">
+            <style>
+                /* ... (estilos CSS anteriores) */
+                .erro {
+                    border: 1px solid red;
+                }
+                .mensagem-erro-js {
+                    color: red;
+                    margin-top: 5px;
+                }
+            </style>
+    </head>
+    <body>
+        <h1>Detalhes do Photocard</h1>
+
+        <div th:if="${photocard != null}">
+            <h2>Adicionar Comentário</h2>
+            <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
+                <textarea id="textoComentario" th:field="*{texto}" rows="4" cols="50"></textarea><br>
+                    <div id="mensagemErroJs" class="mensagem-erro-js"></div> <!- Mensagem de erro JS -->
+                    <button type="button" onclick="validarComentario()">Comentar</button> <!- Chama a função de validação -->
+            </form>
+        </div>
+        <script>
+            function validarComentario() {
+                let textoComentario = document.getElementById("textoComentario");
+                let mensagemErroJs = document.getElementById("mensagemErroJs");
+                mensagemErroJs.innerHTML = ""; // Limpa mensagens de erro anteriores
+
+                if (textoComentario.value.trim() === "") {
+                    textoComentario.classList.add("erro");
+                    mensagemErroJs.innerHTML = "Por favor, insira um comentário.";
+                    return false; // Impede o envio do formulário
+                } else {
+                    textoComentario.classList.remove("erro");
+                }
+                document.getElementById("formComentario").submit(); // Envia o formulário se a validação passar
+            }
+        </script>
+    </body>
+</html>

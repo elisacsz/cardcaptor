@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class Comentario {
     
-    private Integer id;
-    private Integer photocardId;
+    private Integer id;    
     private String comentario;
-
+    private Photocard photocard;
+    
 }
