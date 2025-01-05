@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Cardcaptor - Início</title>
+        <title>Cardcaptor! - Início</title>
         <meta charset="UTF-8">
-    </head>
-    <body>
-        <h1>Cardcaptor</h1>
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 
-        <nav>
-                <a th:href="@{/cadastro}">Adicione um Photocard</a>
-                <br>
-                <a th:href="@{/grupos}">Lista de Photocards</a>
-                <br>
-                <a th:href="@{/wishlist}">Minha Wishlist</a>
-        </nav>
-    </body>
-</html>
+                            <style>
+                                body {
+                                    font-family: 'Fredoka', sans-serif;
+                                }
+
+                                .botoes {
+                                    background-color: #fbaac5;
+                                    color: white;
+                                    width: 150px;
+                                    margin-bottom: 1rem;
+                                    text-align: center;
+                                    font-size: 20px;
+                                }
+
+                                .botoes:hover {
+                                    color: #6f679a;
+                                }
+
+                                .nav {
+                                    display: flex;
+                                    justify-content: center;
+                                    flex-direction: column;
+                                    align-items: center;
+                                }
+                            </style>
+
+                            </head>
+
+                            <body class="bg-light">
+                                
+                                <div class="container mt-5">
+                                    
+                                    <div class="text-center">
+                                        <img src="img/logo.png" alt="Logo do Cardcaptor!" width="300" style="margin-top: -50px;" />
+                                    </div>
+
+                                    <nav class="nav">
+                                        <a th:href="@{/cadastro}" class="nav-link btn botoes">Adicione um Photocard</a>
+                                        <a th:href="@{/grupos}" class="nav-link btn botoes">Lista de Photocards</a>
+                                        <a th:href="@{/wishlist}" class="nav-link btn botoes">Minha Wishlist</a>
+                                    </nav>
+                                    
+                                </div>
+                            </body>
+                            </html>
