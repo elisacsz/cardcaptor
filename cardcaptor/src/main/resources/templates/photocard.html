@@ -3,74 +3,206 @@
     <head>
         <title>Detalhes do Photocard</title>
         <meta charset="UTF-8">
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+                            <style>
+                                .logo {
+                                    text-align: center;
+                                    margin-top: -50px;
+                                }
 
-    </head>
-    <body>
-        <h1>Detalhes do Photocard</h1>
-        
-        <img th:src="${photocard.foto}" alt="Foto do Photocard" width="200"/>
+                                body {
+                                    background-color: #f8f9fa;
+                                    font-family: 'Fredoka', sans-serif;
+                                    color: #6f679a;
+                                }
 
-        <div th:if="${photocard != null}">
-            <p><strong>Nome:</strong> <span th:text="${photocard.nome}"></span></p>
-            <p><strong>Tipo:</strong> <span th:text="${photocard.tipo}"></span></p>
+                                .container {
+                                    max-width: 900px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                    text-align: center;
+                                }
 
-            <p th:if="${photocard.loja != null}">
-                <strong>Loja:</strong> <span th:text="${photocard.loja}"></span>
-            </p>
+                                h1, h2 {
+                                    color: #fbaac5;
+                                    font-weight: bold;
+                                }
 
-            <p th:if="${photocard.grupo != null}">
-                <strong>Grupo:</strong> <span th:text="${photocard.grupo.nome}"></span>
-            </p>
+                                h2 {
+                                    margin-top: 35px;
+                                    font-size: 24px;
+                                }
 
-            <p th:if="${photocard.idol != null}">
-                <strong>Idol:</strong> <span th:text="${photocard.idol.nome}"></span>
-            </p>
+                                img {
+                                    border-radius: 8px;
+                                    margin-bottom: 20px;
+                                }
 
-        </div>
+                                .detalhes-container {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 20px;
+                                    text-align: left;
+                                }
 
-        <div th:unless="${photocard != null}">
-            <p>Photocard não encontrado.</p>
-        </div>
+                                .foto-container {
+                                    flex-shrink: 0;
+                                }
 
-        <h2>Adicionar Comentário</h2>
+                                .info-container {
+                                    max-width: 250px;
+                                    text-align: left;
+                                }
 
-        <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
-            <label for="analise"><strong>Comente suas dúvidas ou outras informações sobre esse photocard para outros collectors!</strong>:</label><br>
-                <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
+                                .formulario {
+                                    margin-bottom: 20px;
+                                }
 
-                    <div id="mensagemErroJs" class="mensagem-erro-js"></div>
+                                .form-grid {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    gap: 20px;
+                                }
 
-                    <button type="button" onclick="validarComentario()">Comentar</button>
-                    <a th:href="@{/}"><button type="button">Voltar para Início</button></a>
+                                .form-grid > div {
+                                    flex: 1;
+                                    min-width: 350px;
+                                }
 
-                    </form>
+                                .botoes-container {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 20px;
+                                }
 
-                    <h2>Comentários</h2>
+                                button {
+                                    background-color: #fbaac5;
+                                    color: white;
+                                    padding: 10px 20px;
+                                    border: none;
+                                    cursor: pointer;
+                                    text-align: center;
+                                    transition: background-color 0.3s ease;
+                                }
 
-                    <ul th:unless="${listaComentarios.empty}">
-                        <li th:each="comentario : ${listaComentarios}">
-                            <p th:text="${comentario.comentario}"></p>
-                        </li>
-                    </ul>
-                    <div th:if="${listaComentarios.empty}">
-                        <p>Nenhum comentário ainda.</p>
-                    </div>
+                                button:hover {
+                                    background-color: #645c8f;
+                                }
 
-                    <script>
-                        function validarComentario() {
-                            let textoComentario = document.getElementById("textoComentario");
-                            let mensagemErroJs = document.getElementById("mensagemErroJs");
-                            mensagemErroJs.innerHTML = "";
+                                ul {
+                                    list-style-type: none;
+                                    padding: 0;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                }
 
-                            if (textoComentario.value.trim() === "") {
-                                textoComentario.classList.add("erro");
-                                mensagemErroJs.innerHTML = "O comentário não pode ser vazio.";
-                                return false;
-                            } else {
-                                textoComentario.classList.remove("erro");
-                            }
-                            document.getElementById("formComentario").submit();
-                        }
-                    </script>
-                    </body>
-                    </html>
+                                li {
+                                    background-color: #645c8f;
+                                    color: white;
+                                    padding: 10px;
+                                    margin-bottom: 10px;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                    max-width: 100%;
+                                    word-wrap: break-word;
+                                    overflow-wrap: break-word;
+                                    display: block;
+                                    width: 350px;
+                                    word-break: break-all;
+                                }
+
+                                .mensagem-erro-js {
+                                    color: red;
+                                    font-size: 14px;
+                                    margin-top: 10px;
+                                }
+                            </style>
+                            </head>
+
+                            <body>
+                                <div class="container mt-5">
+                                    <div class="logo">
+                                        <img src="/img/logo.png" alt="Logo do Cardcaptor!" width="300" />
+                                    </div>
+
+                                    <h1 class="text-center mb-4" style="font-size: 30px";>Detalhes do Photocard</h1>
+
+                                    <div th:if="${photocard != null}">
+                                        <div class="detalhes-container">
+                                            <div class="foto-container">
+                                                <img th:src="${photocard.foto}" alt="Foto do Photocard" width="200"/>
+                                            </div>
+
+                                            <div class="info-container">
+                                                <p><strong>Nome:</strong> <span th:text="${photocard.nome}"></span></p>
+                                                <p><strong>Tipo:</strong> <span th:text="${photocard.tipo}"></span></p>
+
+                                                <p th:if="${photocard.loja != null}">
+                                                    <strong>Loja:</strong> <span th:text="${photocard.loja}"></span>
+                                                </p>
+
+                                                <p th:if="${photocard.grupo != null}">
+                                                    <strong>Grupo:</strong> <span th:text="${photocard.grupo.nome}"></span>
+                                                </p>
+
+                                                <p th:if="${photocard.idol != null}">
+                                                    <strong>Idol:</strong> <span th:text="${photocard.idol.nome}"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div th:unless="${photocard != null}">
+                                        <p>Photocard não encontrado.</p>
+                                    </div>
+
+                                    <h2>Adicionar Comentário</h2>
+
+                                    <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
+                                        <label for="analise">Comente suas dúvidas ou outras informações sobre esse photocard para outros collectors!</label><br>
+                                            <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
+
+                                                <div id="mensagemErroJs" class="mensagem-erro-js"></div>
+
+                                                <div class="botoes-container">
+                                                    <button type="button" onclick="validarComentario()">Comentar</button>
+                                                    <button type="button" onclick="window.location.href = '/'">Voltar para Início</button>
+                                                </div>
+                                                </form>
+
+                                                <h2>Comentários</h2>
+
+                                                <ul th:unless="${listaComentarios.empty}">
+                                                    <li th:each="comentario : ${listaComentarios}">
+                                                        <p th:text="${comentario.comentario}"></p>
+                                                    </li>
+                                                </ul>
+
+                                                <div th:if="${listaComentarios.empty}">
+                                                    <p>Nenhum comentário ainda :(</p>
+                                                </div>
+
+                                                <script>
+                                                    function validarComentario() {
+                                                        let textoComentario = document.getElementById("textoComentario");
+                                                        let mensagemErroJs = document.getElementById("mensagemErroJs");
+                                                        mensagemErroJs.innerHTML = "";
+
+                                                        if (textoComentario.value.trim() === "") {
+                                                            textoComentario.classList.add("erro");
+                                                            mensagemErroJs.innerHTML = "O comentário não pode ser vazio.";
+                                                            return false;
+                                                        } else {
+                                                            textoComentario.classList.remove("erro");
+                                                        }
+                                                        document.getElementById("formComentario").submit();
+                                                    }
+                                                </script>
+                                                </div>
+                                                </body>
+                                                </html>
