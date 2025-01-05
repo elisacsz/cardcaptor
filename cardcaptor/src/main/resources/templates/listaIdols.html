@@ -3,19 +3,118 @@
 
     <head>
         <title>Membros</title>
-    </head>
-    <body>
-        <h1 th:text="'Membros do ' + ${grupo.nome}"></h1>
 
-        <ul>
-            <li th:each="idol : ${listaIdols}">
-                <a th:href="@{'/idol/' + ${idol.id}}" th:text="${idol.nome}"></a>
-            </li>
-        </ul>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 
-        <a th:href="@{/grupos}"><button type="button">Voltar para Grupos</button></a>
-        <br>
-        <a th:href="@{/}"><button type="button">Voltar para Início</button></a>
+                        <style>
+                            .logo {
+                                display: flex;
+                                justify-content: center;
+                                text-align: center;
+                                margin-top: -50px;
+                                width: 100%;
+                            }
 
-    </body>
-</html>
+                            body {
+                                background-color: #f8f9fa;
+                                font-family: 'Fredoka', sans-serif;
+                                color: #6f679a;
+                                padding: 20px;
+                            }
+
+                            .container {
+                                max-width: 250px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                text-align: center;
+                            }
+
+                            h1 {
+                                color: #fbaac5;
+                                font-weight: bold;
+                                font-size: 30px;
+                                margin-bottom: 30px;
+                            }
+
+                            ul {
+                                list-style-type: none;
+                                padding: 0;
+                                margin-bottom: 30px;
+                            }
+
+                            li {
+                                background-color: #9a93c2;
+                                color: white;
+                                margin: 10px 0;
+                                padding: 15px;
+                                border-radius: 8px;
+                                transition: background-color 0.3s ease;
+                                text-align: center;
+                                font-size: 18px;
+                            }
+
+                            li:hover {
+                                background-color: #6f679a;
+                            }
+
+                            a {
+                                color: white;
+                                text-decoration: none;
+                            }
+
+                            a:hover {
+                                text-decoration: none;
+                                color: white;
+                            }
+
+                            .btn-container {
+                                text-align: center;
+                                margin-top: 20px;
+                            }
+
+                            button {
+                                background-color: #fbaac5;
+                                color: white;
+                                padding: 10px 20px;
+                                border: none;
+                                border-radius: 5px;
+                                font-size: 16px;
+                            }
+
+                            button:hover {
+                                background-color: #9a93c2;
+                            }
+                        </style>
+
+                        </head>
+                        <body>
+
+                            <div class="container">
+
+                                <div class="logo">
+                                    <img src="/img/logo.png" alt="Logo do Cardcaptor!" width="300" />
+                                </div>
+
+                                <h1 th:text="'Membros do ' + ${grupo.nome}" style="font-size: 30px;"></h1>
+
+                                <ul>
+                                    <li th:each="idol : ${listaIdols}">
+                                        <a th:href="@{'/idol/' + ${idol.id}}" th:text="${idol.nome}"></a>
+                                    </li>
+                                </ul>
+
+                                <div class="btn-container">
+                                    <a th:href="@{/grupos}">
+                                        <button type="button" style="margin-top: 20px">Grupos</button>
+                                    </a>
+                                    <br>
+                                        <a th:href="@{/}">
+                                            <button type="button" style="margin-top: 15px;">Início</button>
+                                        </a>
+                                </div>
+                            </div>
+                        </body>
+                        </html>

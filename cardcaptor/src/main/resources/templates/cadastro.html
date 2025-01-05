@@ -3,153 +3,156 @@
     <head>
         <title>Cadastro de Photocards</title>
         <meta charset="UTF-8">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                background-color: #f8f9fa;
-                font-family: 'Fredoka', sans-serif;
-                color: #6f679a;
-            }
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+                            <style>
+                                body {
+                                    background-color: #f8f9fa;
+                                    font-family: 'Fredoka', sans-serif;
+                                    color: #6f679a;
+                                }
 
-            .container {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 20px;
-                text-align: center;
-            }
+                                .container {
+                                    max-width: 900px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                    text-align: center;
+                                }
 
-            .logo {
-                text-align: center;
-                margin-top: -50px;
-            }
+                                .logo {
+                                    display: flex;
+                                    justify-content: center;
+                                    text-align: center;
+                                    margin-top: -50px;
+                                    width: 100%;
+                                }
 
-            h1 {
-                color: #fbaac5;
-                font-weight: bold;
-                font-size: 30px;
-            }
+                                h1 {
+                                    color: #fbaac5;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                }
 
-            .form-grid {
-                display: flex;
-                justify-content: space-between;
-                gap: 20px;
-            }
+                                .form-grid {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 45px;
+                                }
 
-            .form-grid > div {
-                flex: 1;
-                min-width: 350px;
-            }
+                                .form-grid > div {
+                                    width: 100%;
+                                    max-width: 300px;
+                                    margin-bottom: 20px;
+                                }
 
-            .formulario {
-                margin-bottom: 20px;
-            }
+                                .formulario {
+                                    margin-bottom: 20px;
+                                }
 
-            .botoes-container {
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-            }
+                                .botoes-container {
+                                    display: grid;
+                                    justify-content: center;
+                                }
 
-            button {
-                background-color: #fbaac5;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                text-align: center;
-            }
+                                button {
+                                    background-color: #fbaac5;
+                                    color: white;
+                                    padding: 10px 20px;
+                                    border: none;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                }
 
-            button:hover {
-                background-color: #6f679a;
-            }
+                                button:hover {
+                                    background-color: #9a93c2;
+                                }
 
-        </style>
-    </head>
+                            </style>
+                            </head>
 
-    <body>
-        <div class="container mt-5">
-            <div class="logo">
-                <img src="img/logo.png" alt="Logo do Cardcaptor!" width="300" />
-            </div>
+                            <body>
+                                <div class="container mt-5">
+                                    <div class="logo">
+                                        <img src="img/logo.png" alt="Logo do Cardcaptor!" width="300" />
+                                    </div>
 
-            <h1 class="text-center mb-4">Cadastre um Photocard</h1>
+                                    <h1 class="text-center mb-4">Cadastre um Photocard</h1>
 
-            <form th:action="@{/salvar}" method="post" th:object="${photocard}">
-                <div class="form-grid">
+                                    <form th:action="@{/salvar}" method="post" th:object="${photocard}">
+                                        <div class="form-grid">
 
-                    <div>
-                        <div class="formulario">
-                            <label for="nome">Nome</label>
-                            <input type="text" id="nome" class="form-control" th:field="*{nome}" required/>
-                        </div>
-                        <div class="formulario">
-                            <label for="tipo">Tipo</label>
-                            <select id="tipo" class="form-control" th:field="*{tipo}" required>
-                                <option value="">Selecione um tipo</option>
-                                <option th:each="tipo : ${T(com.senac.cardcaptor.model.TipoPhotocard).values()}"
-                                        th:value="${tipo.name()}"
-                                        th:text="${tipo.descricao}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="formulario">
-                            <label for="loja">Loja</label>
-                            <input type="text" id="loja" class="form-control" th:field="*{loja}" />
-                        </div>
-                    </div>
+                                            <div>
+                                                <div class="formulario">
+                                                    <label for="nome">Nome</label>
+                                                    <input type="text" id="nome" class="form-control" th:field="*{nome}" required/>
+                                                </div>
+                                                <div class="formulario">
+                                                    <label for="tipo">Tipo</label>
+                                                    <select id="tipo" class="form-control" th:field="*{tipo}" required>
+                                                        <option value="">Selecione um tipo</option>
+                                                        <option th:each="tipo : ${T(com.senac.cardcaptor.model.TipoPhotocard).values()}"
+                                                                th:value="${tipo.name()}"
+                                                                th:text="${tipo.descricao}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="formulario">
+                                                    <label for="loja">Loja</label>
+                                                    <input type="text" id="loja" class="form-control" th:field="*{loja}" />
+                                                </div>
+                                            </div>
 
-                    <div>
-                        <div class="formulario">
-                            <label for="foto">Foto (Insira a URL de uma imagem)</label>
-                            <input type="text" id="foto" class="form-control" name="foto" required />
-                        </div>
-                        <div class="formulario">
-                            <label for="grupoId">Grupo</label>
-                            <select id="selectGrupo" name="grupoId" class="form-control" required>
-                                <option value="">Selecione um Grupo</option>
-                                <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
-                            </select>
-                        </div>
-                        <div class="formulario">
-                            <label for="idolId">Idol</label>
-                            <select id="selectIdol" name="idolId" class="form-control" required>
-                                <option value="">Selecione um Idol</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                                            <div>
+                                                <div class="formulario">
+                                                    <label for="foto">Foto (Insira a URL de uma imagem)</label>
+                                                    <input type="text" id="foto" class="form-control" name="foto" required />
+                                                </div>
+                                                <div class="formulario">
+                                                    <label for="grupoId">Grupo</label>
+                                                    <select id="selectGrupo" name="grupoId" class="form-control" required>
+                                                        <option value="">Selecione um Grupo</option>
+                                                        <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="formulario">
+                                                    <label for="idolId">Idol</label>
+                                                    <select id="selectIdol" name="idolId" class="form-control" required>
+                                                        <option value="">Selecione um Idol</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                <div class="botoes-container">
-                    <button type="submit">Cadastrar</button>
-                    <a th:href="@{/}">
-                        <button type="button">Voltar para Início</button>
-                    </a>
-                </div>
-            </form>
+                                        <div class="botoes-container">
+                                            <button type="submit" style="margin-top: 20px">Cadastrar</button>
+                                            <a th:href="@{/}">
+                                                <button type="button" style="margin-top: 20px">Início</button>
+                                            </a>
+                                        </div>
+                                    </form>
 
-            <script th:inline="javascript">
-                const todosIdols = /*[[${listaIdols}]]*/ [];
-                const selectGrupo = document.getElementById('selectGrupo');
-                const selectIdol = document.getElementById('selectIdol');
+                                    <script th:inline="javascript">
+                                        const todosIdols = /*[[${listaIdols}]]*/ [];
+                                        const selectGrupo = document.getElementById('selectGrupo');
+                                        const selectIdol = document.getElementById('selectIdol');
 
-                selectGrupo.addEventListener('change', function () {
-                    const grupoId = parseInt(this.value);
-                    selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
+                                        selectGrupo.addEventListener('change', function () {
+                                            const grupoId = parseInt(this.value);
+                                            selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
 
-                    if (grupoId) {
-                        const idolsFiltrados = todosIdols.filter(idol => idol.grupo.id === grupoId);
-                        idolsFiltrados.forEach(idol => {
-                            const option = document.createElement('option');
-                            option.value = idol.id;
-                            option.text = idol.nome;
-                            selectIdol.appendChild(option);
-                        });
-                    }
-                });
-            </script>
-        </div>
-    </body>
-</html>
+                                            if (grupoId) {
+                                                const idolsFiltrados = todosIdols.filter(idol => idol.grupo.id === grupoId);
+                                                idolsFiltrados.forEach(idol => {
+                                                    const option = document.createElement('option');
+                                                    option.value = idol.id;
+                                                    option.text = idol.nome;
+                                                    selectIdol.appendChild(option);
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </body>
+                            </html>
