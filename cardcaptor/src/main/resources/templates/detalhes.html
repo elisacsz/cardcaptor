@@ -38,26 +38,42 @@
         <h2>Adicionar Comentário</h2>
 
         <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
-            <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
-                <div id="mensagemErroJs" class="mensagem-erro-js"></div>
-                <button type="button" onclick="validarComentario()">Comentar</button>
-        </form>
+            <label for="analise"><strong>Comente suas dúvidas ou outras informações sobre esse photocard para outros collectors!</strong>:</label><br>
+                <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
 
-        <script>
-            function validarComentario() {
-                let textoComentario = document.getElementById("textoComentario");
-                let mensagemErroJs = document.getElementById("mensagemErroJs");
-                mensagemErroJs.innerHTML = "";
+                    <div id="mensagemErroJs" class="mensagem-erro-js"></div>
 
-                if (textoComentario.value.trim() === "") {
-                    textoComentario.classList.add("erro");
-                    mensagemErroJs.innerHTML = "Por favor, insira um comentário.";
-                    return false;
-                } else {
-                    textoComentario.classList.remove("erro");
-                }
-                document.getElementById("formComentario").submit();
-            }
-        </script>
-    </body>
-</html>
+                    <button type="button" onclick="validarComentario()">Comentar</button>
+                    <a th:href="@{/}"><button type="button">Voltar para o Início</button></a>
+
+                    </form>
+
+                    <h2>Comentários</h2>
+
+                    <ul th:unless="${listaComentarios.empty}">
+                        <li th:each="comentario : ${listaComentarios}">
+                            <p th:text="${comentario.comentario}"></p>
+                        </li>
+                    </ul>
+                    <div th:if="${listaComentarios.empty}">
+                        <p>Nenhum comentário ainda.</p>
+                    </div>
+
+                    <script>
+                        function validarComentario() {
+                            let textoComentario = document.getElementById("textoComentario");
+                            let mensagemErroJs = document.getElementById("mensagemErroJs");
+                            mensagemErroJs.innerHTML = "";
+
+                            if (textoComentario.value.trim() === "") {
+                                textoComentario.classList.add("erro");
+                                mensagemErroJs.innerHTML = "O comentário não pode ser vazio.";
+                                return false;
+                            } else {
+                                textoComentario.classList.remove("erro");
+                            }
+                            document.getElementById("formComentario").submit();
+                        }
+                    </script>
+                    </body>
+                    </html>

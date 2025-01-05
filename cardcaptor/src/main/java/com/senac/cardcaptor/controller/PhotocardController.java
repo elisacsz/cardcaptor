@@ -108,6 +108,7 @@ public class PhotocardController {
         model.addAttribute("photocard", photocard);
         model.addAttribute("listaIdols", listaIdols);
         model.addAttribute("listaGrupos", listaGrupos);
+        model.addAttribute("listaComentarios", listaComentarios != null ? listaComentarios : new ArrayList<>());
         model.addAttribute("novoComentario", new Comentario());
 
         return "detalhes";
