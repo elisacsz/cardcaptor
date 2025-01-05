@@ -9,7 +9,9 @@
 
         <form th:action="@{/salvar}" method="post" th:object="${photocard}">
             <div>
+
                 <p>Nome: <input type="text" th:field="*{nome}" required/></p>
+
                 <p>Tipo:
                     <select th:field="*{tipo}" required>
                         <option value="">Selecione um tipo</option>
@@ -19,19 +21,26 @@
                         </option>
                     </select>
                 </p>
+
                 <p>Loja: <input type="text" th:field="*{loja}" /></p>
-                <p>Foto (URL): <input type="text" th:field="*{foto}" /></p>
+
+                <p>Foto (Insira a URL de uma imagem):  <input type="text" name="foto" id="foto" required />
+
                 <p>Grupo:
                     <select id="selectGrupo" name="grupoId" required> <option value="">Selecione um Grupo</option>
                         <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
                     </select>
                 </p>
+
                 <p>Idol:
                     <select id="selectIdol" name="idolId" required> <option value="">Selecione um Idol</option></select>
                 </p>
+
             </div>
+
             <button type="submit">Cadastrar</button>
             <br>
+
         </form>
 
         <a th:href="@{/}"><button type="button">Voltar para Início</button></a>

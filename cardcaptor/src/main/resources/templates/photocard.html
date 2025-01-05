@@ -7,6 +7,8 @@
     </head>
     <body>
         <h1>Detalhes do Photocard</h1>
+        
+        <img th:src="${photocard.foto}" alt="Foto do Photocard" width="200"/>
 
         <div th:if="${photocard != null}">
             <p><strong>Nome:</strong> <span th:text="${photocard.nome}"></span></p>
@@ -14,10 +16,6 @@
 
             <p th:if="${photocard.loja != null}">
                 <strong>Loja:</strong> <span th:text="${photocard.loja}"></span>
-            </p>
-
-            <p th:if="${photocard.foto != null}">
-                <strong>Foto (URL):</strong> <span th:text="${photocard.foto}"></span>
             </p>
 
             <p th:if="${photocard.grupo != null}">
@@ -28,7 +26,6 @@
                 <strong>Idol:</strong> <span th:text="${photocard.idol.nome}"></span>
             </p>
 
-            <img th:src="${photocard.foto}" alt="Foto do Photocard" width="200"/>
         </div>
 
         <div th:unless="${photocard != null}">

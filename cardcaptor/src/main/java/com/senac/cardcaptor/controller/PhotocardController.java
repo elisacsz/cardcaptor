@@ -67,34 +67,47 @@ public class PhotocardController {
     }
 
     @PostMapping("/salvar")
-    public String processarFormulario(
-            @ModelAttribute Photocard photocard,
-            @RequestParam("grupoId") Integer grupoId,
-            @RequestParam("idolId") Integer idolId
-    ) {
-        Grupo grupo = null;
-        for (Grupo g : listaGrupos) {
-            if (g.getId().equals(grupoId)) {
-                grupo = g;
-                break;
-            }
+public String processarFormulario(
+        @ModelAttribute Photocard photocard,
+        @RequestParam("grupoId") Integer grupoId,
+        @RequestParam("idolId") Integer idolId
+) {
+    // Encontre o grupo correspondente
+    Grupo grupo = null;
+    for (Grupo g : listaGrupos) {
+        if (g.getId().equals(grupoId)) {
+            grupo = g;
+            break;
         }
-
-        Idol idol = null;
-        for (Idol i : listaIdols) {
-            if (i.getId().equals(idolId)) {
-                idol = i;
-                break;
-            }
-        }
-
-        photocard.setGrupo(grupo);
-        photocard.setIdol(idol);
-
-        photocard.setId(proximoIdPhotocard++);
-        listaPhotocards.add(photocard);
-        return "redirect:/photocard/" + photocard.getId();
     }
+
+    // Encontre o idol correspondente
+    Idol idol = null;
+    for (Idol i : listaIdols) {
+        if (i.getId().equals(idolId)) {
+            idol = i;
+            break;
+        }
+    }
+
+    // Se o grupo ou idol não forem encontrados, redireciona para uma página de erro
+    if (grupo == null || idol == null) {
+        return "erro"; // Você pode criar uma página de erro ou uma mensagem adequada
+    }
+
+    // Setando o grupo e idol para o Photocard
+    photocard.setGrupo(grupo);
+    photocard.setIdol(idol);
+
+    // Atribuindo um ID único para o photocard
+    photocard.setId(proximoIdPhotocard++);
+
+    // Adicionando o photocard na lista
+    listaPhotocards.add(photocard);
+
+    // Redirecionando para a página de detalhes do photocard
+    return "redirect:/photocard/" + photocard.getId();
+}
 
     //----------------------------------------------------------------Photocard
     @GetMapping("/photocard/{id}")
