@@ -22,6 +22,7 @@ public class PhotocardController {
     private List<Idol> listaIdols;
     private List<Photocard> listaPhotocards = new ArrayList<>();
     private List<Comentario> listaComentarios = new ArrayList<>();
+    private List<Photocard> listaDesejos = new ArrayList<>();
     private int proximoIdPhotocard = 1;
     private int proximoIdComentario = 1;
 
@@ -197,4 +198,31 @@ public class PhotocardController {
 
         return "listaPhotocards";
     }
+
+    //---------------------------------------------------------Lista de Desejos
+    @PostMapping("/adicionarAWishlist/{id}")
+    public String adicionarAWishlist(@PathVariable Integer id, Model model) {
+        Photocard photocardSelecionado = null;
+
+        // Encontra o photocard pelo ID
+        for (Photocard photocard : listaPhotocards) {
+            if (photocard.getId().equals(id)) {
+                photocardSelecionado = photocard;
+                break;
+            }
+        }
+
+        if (photocardSelecionado != null) {
+            listaDesejos.add(photocardSelecionado);
+        }
+
+        return "redirect:/wishlist";
+    }
+
+    @GetMapping("/wishlist")
+    public String exibirWishlist(Model model) {
+        model.addAttribute("wishlist", listaDesejos);
+        return "wishlist";
+    }
+
 }

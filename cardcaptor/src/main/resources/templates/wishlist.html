@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">    
+
+    <head>
+        <title>Photocards Wishlist</title>
+    </head>
+    <body>
+        <h1>Photocards Wishlist</h1>
+
+        <ul>
+            <li th:each="photocard : ${wishlist}">
+                <div>
+                    <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
+                    <br>
+                        <a th:href="@{'/photocard/' + ${photocard.id}}">
+                            <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
+                        </a>
+                </div>
+            </li>
+        </ul>
+
+        <a th:href="@{/grupos}"><button type="button">Ir para Grupos</button></a>
+        <br>
+        <a th:href="@{/}"><button type="button">Ir para Início</button></a>
+    </body>
+</html>
