@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">    
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Idols</title>
-        <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                </head>
-                <body>
-                    <h1>Idols</h1>
-                    <ul>
-                        <li th:each="idol : ${idols}">
-                            <a th:href="@{/photocards/{id}(id=${idol.id})}" th:text="${idol.nome}"></a>
-                        </li>
-                    </ul>
-                </body>
-                </html>
+        <title>Membros</title>
+    </head>
+    <body>
+        <h1 th:text="'Membros do ' + ${grupo.nome}"></h1>
+
+        <ul>
+            <li th:each="idol : ${listaIdols}">
+                <a th:href="@{'/idol/' + ${idol.id}}" th:text="${idol.nome}"></a>
+            </li>
+        </ul>
+
+        <a th:href="@{/grupos}"><button type="button">Voltar para Lista de Grupos</button></a>
+        <br>
+        <a th:href="@{/}"><button type="button">Voltar para o Início</button></a>
+
+    </body>
+</html>
