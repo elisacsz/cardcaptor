@@ -3,42 +3,60 @@
     <head>
         <title>Detalhes do Photocard</title>
         <meta charset="UTF-8">
-            <style>
-                /* ... (estilos CSS anteriores) */
-                .erro {
-                    border: 1px solid red;
-                }
-                .mensagem-erro-js {
-                    color: red;
-                    margin-top: 5px;
-                }
-            </style>
+
     </head>
     <body>
         <h1>Detalhes do Photocard</h1>
 
         <div th:if="${photocard != null}">
-            <h2>Adicionar Comentário</h2>
-            <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
-                <textarea id="textoComentario" th:field="*{texto}" rows="4" cols="50"></textarea><br>
-                    <div id="mensagemErroJs" class="mensagem-erro-js"></div> <!- Mensagem de erro JS -->
-                    <button type="button" onclick="validarComentario()">Comentar</button> <!- Chama a função de validação -->
-            </form>
+            <p><strong>Nome:</strong> <span th:text="${photocard.nome}"></span></p>
+            <p><strong>Tipo:</strong> <span th:text="${photocard.tipo}"></span></p>
+
+            <p th:if="${photocard.loja != null}">
+                <strong>Loja:</strong> <span th:text="${photocard.loja}"></span>
+            </p>
+
+            <p th:if="${photocard.foto != null}">
+                <strong>Foto (URL):</strong> <span th:text="${photocard.foto}"></span>
+            </p>
+
+            <p th:if="${photocard.grupo != null}">
+                <strong>Grupo:</strong> <span th:text="${photocard.grupo.nome}"></span>
+            </p>
+
+            <p th:if="${photocard.idol != null}">
+                <strong>Idol:</strong> <span th:text="${photocard.idol.nome}"></span>
+            </p>
+
+            <img th:src="${photocard.foto}" alt="Foto do Photocard" width="200"/>
         </div>
+
+        <div th:unless="${photocard != null}">
+            <p>Photocard não encontrado.</p>
+        </div>
+
+        <h2>Adicionar Comentário</h2>
+
+        <form id="formComentario" th:action="@{/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
+            <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
+                <div id="mensagemErroJs" class="mensagem-erro-js"></div>
+                <button type="button" onclick="validarComentario()">Comentar</button>
+        </form>
+
         <script>
             function validarComentario() {
                 let textoComentario = document.getElementById("textoComentario");
                 let mensagemErroJs = document.getElementById("mensagemErroJs");
-                mensagemErroJs.innerHTML = ""; // Limpa mensagens de erro anteriores
+                mensagemErroJs.innerHTML = "";
 
                 if (textoComentario.value.trim() === "") {
                     textoComentario.classList.add("erro");
                     mensagemErroJs.innerHTML = "Por favor, insira um comentário.";
-                    return false; // Impede o envio do formulário
+                    return false;
                 } else {
                     textoComentario.classList.remove("erro");
                 }
-                document.getElementById("formComentario").submit(); // Envia o formulário se a validação passar
+                document.getElementById("formComentario").submit();
             }
         </script>
     </body>

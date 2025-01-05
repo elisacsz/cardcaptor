@@ -7,8 +7,6 @@ import com.senac.cardcaptor.model.Photocard;
 import com.senac.cardcaptor.model.TipoPhotocard;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PhotocardController {
@@ -64,15 +61,15 @@ public class PhotocardController {
         model.addAttribute("listaGrupos", listaGrupos);
         model.addAttribute("listaIdols", listaIdols);
         model.addAttribute("tiposPhotocard", TipoPhotocard.values());
-        model.addAttribute("photocard", new Photocard()); // ESSA LINHA É CRUCIAL!
+        model.addAttribute("photocard", new Photocard());
         return "cadastro";
     }
 
     @PostMapping("/salvar")
     public String processarFormulario(
             @ModelAttribute Photocard photocard,
-            @RequestParam("grupoId") Integer grupoId, // Recebe o ID do Grupo
-            @RequestParam("idolId") Integer idolId // Recebe o ID do Idol
+            @RequestParam("grupoId") Integer grupoId,
+            @RequestParam("idolId") Integer idolId
     ) {
         Grupo grupo = null;
         for (Grupo g : listaGrupos) {
@@ -90,17 +87,16 @@ public class PhotocardController {
             }
         }
 
-        photocard.setGrupo(grupo); // Atribui mesmo se for null (pode causar NullPointerException)
-        photocard.setIdol(idol);    // Atribui mesmo se for null (pode causar NullPointerException)
+        photocard.setGrupo(grupo);
+        photocard.setIdol(idol);
 
         photocard.setId(proximoIdPhotocard++);
         listaPhotocards.add(photocard);
-        return "redirect:/detalhes?id=" + photocard.getId();
+        return "redirect:/detalhes/" + photocard.getId();
     }
 
-    // --------------------------------------------------- NOVO DAQUI PRA BAIXO
     @GetMapping("/detalhes/{id}")
-    public String exibirDetalhes(@PathVariable Integer id, Model model) {
+    public String detalhesPhotocard(@PathVariable Integer id, Model model) {
         Photocard photocard = null;
         for (Photocard p : listaPhotocards) {
             if (p.getId().equals(id)) {
@@ -109,23 +105,16 @@ public class PhotocardController {
             }
         }
 
-        // NENHUMA VERIFICAÇÃO DE NULO AQUI, como solicitado
-        model.addAttribute("photocard", photocard); // PODE CAUSAR NullPointerException
-
-        List<Comentario> comentariosDoPhotocard = new ArrayList<>(); // Inicializa a lista para evitar NullPointerException
-        for (Comentario comentario : listaComentarios) {
-            if (comentario.getPhotocard() != null && comentario.getPhotocard().equals(photocard)) {
-                comentariosDoPhotocard.add(comentario);
-            }
-        }
-
-        model.addAttribute("comentarios", comentariosDoPhotocard);
+        model.addAttribute("photocard", photocard);
+        model.addAttribute("listaIdols", listaIdols);
+        model.addAttribute("listaGrupos", listaGrupos);
         model.addAttribute("novoComentario", new Comentario());
+
         return "detalhes";
     }
 
     @PostMapping("/comentar/{photocardId}")
-    public String adicionarComentario(@PathVariable Integer photocardId, @ModelAttribute Comentario novoComentario, RedirectAttributes redirectAttributes) {
+    public String comentar(@PathVariable Integer photocardId, @ModelAttribute Comentario novoComentario) {
         Photocard photocard = null;
         for (Photocard p : listaPhotocards) {
             if (p.getId().equals(photocardId)) {
@@ -134,9 +123,11 @@ public class PhotocardController {
             }
         }
 
-        novoComentario.setId(proximoIdComentario++);
-        novoComentario.setPhotocard(photocard);
-        listaComentarios.add(novoComentario);
-        return "redirect:/detalhes/" + photocardId;
+        if (photocard != null) {
+            novoComentario.setPhotocard(photocard);
+            listaComentarios.add(novoComentario);
+        }
+
+        return "redirect:/detalhes/" + photocard.getId();
     }
 }
