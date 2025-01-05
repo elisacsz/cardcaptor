@@ -92,11 +92,11 @@ public class PhotocardController {
 
         photocard.setId(proximoIdPhotocard++);
         listaPhotocards.add(photocard);
-        return "redirect:/detalhes/" + photocard.getId();
+        return "redirect:/photocard/" + photocard.getId();
     }
 
-    //----------------------------------------------------------------Detalhes
-    @GetMapping("/detalhes/{id}")
+    //----------------------------------------------------------------Photocard
+    @GetMapping("/photocard/{id}")
     public String detalhesPhotocard(@PathVariable Integer id, Model model) {
         Photocard photocard = null;
         for (Photocard p : listaPhotocards) {
@@ -112,7 +112,7 @@ public class PhotocardController {
         model.addAttribute("listaComentarios", listaComentarios != null ? listaComentarios : new ArrayList<>());
         model.addAttribute("novoComentario", new Comentario());
 
-        return "detalhes";
+        return "photocard";
     }
 
     @PostMapping("/comentar/{photocardId}")
@@ -130,7 +130,7 @@ public class PhotocardController {
             listaComentarios.add(novoComentario);
         }
 
-        return "redirect:/detalhes/" + photocard.getId();
+        return "redirect:/photocard/" + photocard.getId();
     }
 
     //----------------------------------------------------------------Listas
@@ -171,6 +171,30 @@ public class PhotocardController {
 
         return "listaIdols";
     }
-   
 
+    //Listar photocards    
+    @GetMapping("/idol/{id}")
+    public String listarPhotocardsPorIdol(@PathVariable Integer id, Model model) {
+        Idol idolSelecionado = null;
+        List<Photocard> photocardsIdolSelecionado = new ArrayList<>();
+
+        for (Idol idol : listaIdols) {
+            if (idol.getId().equals(id)) {
+                idolSelecionado = idol;
+                break;
+            }
+        }
+
+        if (idolSelecionado != null) {
+            for (Photocard photocard : listaPhotocards) {
+                if (photocard.getIdol().getId().equals(id)) {
+                    photocardsIdolSelecionado.add(photocard);
+                }
+            }
+            model.addAttribute("idol", idolSelecionado);
+            model.addAttribute("listaPhotocards", photocardsIdolSelecionado);
+        }
+
+        return "listaPhotocards";
+    }
 }
