@@ -95,6 +95,7 @@ public class PhotocardController {
         return "redirect:/detalhes/" + photocard.getId();
     }
 
+    //----------------------------------------------------------------Detalhes
     @GetMapping("/detalhes/{id}")
     public String detalhesPhotocard(@PathVariable Integer id, Model model) {
         Photocard photocard = null;
@@ -131,4 +132,13 @@ public class PhotocardController {
 
         return "redirect:/detalhes/" + photocard.getId();
     }
+
+    //----------------------------------------------------------------Listas
+    
+    @GetMapping("/grupos")
+    public String listarGrupos(Model model) {
+        model.addAttribute("listaGrupos", listaGrupos);
+        return "listaGrupos";
+    }
+
 }

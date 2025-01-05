@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">    
+    <head>
+        <title>Lista de Grupos</title>
+    </head>
+    <body>
+        <h1>Lista de Grupos</h1>
+        <ul>
+            <li th:each="grupo : ${listaGrupos}">
+                <a th:href="@{'/grupos/' + ${grupo.id}}" th:text="${grupo.nome}"></a>
+            </li>
+        </ul>
+    </body>
+</html>
