@@ -7,129 +7,137 @@
             <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                     <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-                         <style>
-            body {
-                background-color: #f8f9fa;
-                font-family: 'Fredoka', sans-serif;
-                color: #6f679a;
-                padding: 20px;
-                text-align: center;
-            }
+                        <style>
+                            .logo {
+                                display: flex;
+                                justify-content: center;
+                                text-align: center;
+                                margin-top: -50px;
+                                width: 100%;
+                            }
 
-            h1 {
-                color: #fbaac5;
-                font-weight: bold;
-                font-size: 30px;
-                margin-bottom: 30px;
-            }
+                            body {
+                                background-color: #f8f9fa;
+                                font-family: 'Fredoka', sans-serif;
+                                color: #6f679a;
+                                padding: 20px;
+                                text-align: center;
+                            }
 
-            .photocard-container {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr); /* 4 photocards por linha */
-                gap: 20px; /* Espaçamento entre os photocards */
-                margin-bottom: 20px;
-            }
+                            h1 {
+                                color: #fbaac5;
+                                font-weight: bold;
+                                font-size: 30px;
+                                margin-bottom: 30px;
+                            }
 
-            .photocard {
-                background-color: #9a93c2;
-                color: white;
-                border-radius: 10px;
-                padding: 10px;
-                text-align: center;
-                transition: transform 0.3s ease, background-color 0.3s ease;
-            }
+                            .photocard-container {
+                                display: grid;
+                                grid-template-columns: repeat(4, 1fr);
+                                gap: 20px;
+                                margin-bottom: 20px;
+                            }
 
-            .photocard img {
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                max-width: 150px; /* Reduzindo o tamanho da imagem */
-            }
+                            .photocard {
+                                background-color: #9a93c2;
+                                color: white;
+                                border-radius: 10px;
+                                padding: 10px;
+                                text-align: center;
+                                transition: transform 0.3s ease, background-color 0.3s ease;
+                            }
 
-            .photocard-name {
-                font-size: 16px;
-                font-weight: bold;
-                margin-top: 10px;
-            }
+                            .photocard img {
+                                width: 100%;
+                                height: auto;
+                                border-radius: 10px;
+                                max-width: 150px;
+                            }
 
-            .photocard:hover {
-                background-color: #6f679a;
-                transform: scale(1.05);
-            }
+                            .photocard-name {
+                                font-size: 16px;
+                                margin-top: 10px;
+                            }
 
-            .btn-container {
-                margin-top: 35px;
-                text-align: center;
-                display: flex;
-                gap: 15px;
-                justify-content: center;
-            }
+                            .photocard:hover {
+                                background-color: #6f679a;
+                                transform: scale(1.05);
+                            }
 
-            button {
-                background-color: #fbaac5;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-            }
+                            .btn-container {
+                                margin-top: 35px;
+                                text-align: center;
+                                display: flex;
+                                gap: 15px;
+                                justify-content: center;
+                            }
 
-            button:hover {
-                background-color: #9a93c2;
-            }
+                            button {
+                                background-color: #fbaac5;
+                                color: white;
+                                padding: 10px 20px;
+                                border: none;
+                                border-radius: 5px;
+                                font-size: 16px;
+                            }
 
-            .photocard form {
-                margin-top: 10px;
-            }
-            
-            .lista-vazia {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 th:text="${idol.nome} + ' Photocards'"></h1>
+                            button:hover {
+                                background-color: #9a93c2;
+                            }
 
-        <div th:if="${#lists.isEmpty(listaPhotocards)}" class="lista-vazia">
-                Ainda não foi adicionado nenhum photocard :(
-                
-                <a th:href="@{/cadastro}"> 
-                    <button type="button" style="margin-top: 20px;">
-                        Adicione um Photocard
-                    </button>
-                </a>
-            </div>    
-        
- <div class="photocard-container">           
-            <div th:each="photocard : ${listaPhotocards}" class="photocard">
-                <div>
-                    <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
-                    <div class="photocard-name">
-                        <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
-                    </div>
+                            .photocard form {
+                                margin-top: 10px;
+                            }
 
-                    <form th:action="@{/adicionarAWishlist/{id}(id=${photocard.id})}" method="post">
-                        <button type="submit">+</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                            .lista-vazia {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+                            }
+                        </style>
+                        </head>
+                        <body>
 
-        <div class="btn-container">
-            <a th:href="@{/grupos}">
-                <button type="button">Grupos</button>
-            </a>
-            <br>
-            <a th:href="@{/idols}">
-                <button type="button">Membros</button>
-            </a>
-            <br>
-            <a th:href="@{/}">
-                <button type="button">Início</button>
-            </a>
-        </div>
-    </body>
-</html>
+                            <div class="logo">
+                                <img src="/img/logo.png" alt="Logo do Cardcaptor!" width="300" />
+                            </div>
+
+                            <h1 th:text="${idol.nome} + ' Photocards'"></h1>
+
+                            <div th:if="${#lists.isEmpty(listaPhotocards)}" class="lista-vazia">
+                                Ainda não foi adicionado nenhum photocard :(
+
+                                <a th:href="@{/cadastro}"> 
+                                    <button type="button" style="margin-top: 20px;">
+                                        Adicione um Photocard
+                                    </button>
+                                </a>
+                            </div>    
+
+                            <div class="photocard-container">           
+                                <div th:each="photocard : ${listaPhotocards}" class="photocard">
+                                    <div>
+                                        <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
+                                        <div class="photocard-name">
+                                            <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
+                                        </div>
+
+                                        <form th:action="@{/adicionarAWishlist/{id}(id=${photocard.id})}" method="post">
+                                            <button type="submit">+</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-container">
+                                <a th:href="@{/grupos}">
+                                    <button type="button">Grupos</button>
+                                </a>
+                                <br>
+                                    <a th:href="@{/}">
+                                        <button type="button">Início</button>
+                                    </a>
+                            </div>
+                        </body>
+                        </html>

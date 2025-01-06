@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PhotocardController {
@@ -67,47 +68,41 @@ public class PhotocardController {
     }
 
     @PostMapping("/salvar")
-public String processarFormulario(
-        @ModelAttribute Photocard photocard,
-        @RequestParam("grupoId") Integer grupoId,
-        @RequestParam("idolId") Integer idolId
-) {
-    // Encontre o grupo correspondente
-    Grupo grupo = null;
-    for (Grupo g : listaGrupos) {
-        if (g.getId().equals(grupoId)) {
-            grupo = g;
-            break;
+    public String processarFormulario(
+            @ModelAttribute Photocard photocard,
+            @RequestParam("grupoId") Integer grupoId,
+            @RequestParam("idolId") Integer idolId
+    ) {
+
+        Grupo grupo = null;
+        for (Grupo g : listaGrupos) {
+            if (g.getId().equals(grupoId)) {
+                grupo = g;
+                break;
+            }
         }
-    }
 
-    // Encontre o idol correspondente
-    Idol idol = null;
-    for (Idol i : listaIdols) {
-        if (i.getId().equals(idolId)) {
-            idol = i;
-            break;
+        Idol idol = null;
+        for (Idol i : listaIdols) {
+            if (i.getId().equals(idolId)) {
+                idol = i;
+                break;
+            }
         }
+
+        if (grupo == null || idol == null) {
+            return "erro";
+        }
+
+        photocard.setGrupo(grupo);
+        photocard.setIdol(idol);
+
+        photocard.setId(proximoIdPhotocard++);
+
+        listaPhotocards.add(photocard);
+
+        return "redirect:/photocard/" + photocard.getId();
     }
-
-    // Se o grupo ou idol não forem encontrados, redireciona para uma página de erro
-    if (grupo == null || idol == null) {
-        return "erro"; // Você pode criar uma página de erro ou uma mensagem adequada
-    }
-
-    // Setando o grupo e idol para o Photocard
-    photocard.setGrupo(grupo);
-    photocard.setIdol(idol);
-
-    // Atribuindo um ID único para o photocard
-    photocard.setId(proximoIdPhotocard++);
-
-    // Adicionando o photocard na lista
-    listaPhotocards.add(photocard);
-
-    // Redirecionando para a página de detalhes do photocard
-    return "redirect:/photocard/" + photocard.getId();
-}
 
     //----------------------------------------------------------------Photocard
     @GetMapping("/photocard/{id}")
@@ -214,10 +209,9 @@ public String processarFormulario(
 
     //---------------------------------------------------------Lista de Desejos
     @PostMapping("/adicionarAWishlist/{id}")
-    public String adicionarAWishlist(@PathVariable Integer id, Model model) {
+    public String adicionarAWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Photocard photocardSelecionado = null;
 
-        // Encontra o photocard pelo ID
         for (Photocard photocard : listaPhotocards) {
             if (photocard.getId().equals(id)) {
                 photocardSelecionado = photocard;
