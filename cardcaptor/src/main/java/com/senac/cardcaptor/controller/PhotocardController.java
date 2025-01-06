@@ -207,6 +207,23 @@ public class PhotocardController {
         return "listaPhotocards";
     }
 
+    @PostMapping("/removerPhotocard/{id}")
+    public String removerPhotocard(@PathVariable Integer id) {
+        Photocard photocardRemovido = null;
+        for (Photocard p : listaPhotocards) {
+            if (p.getId().equals(id)) {
+                photocardRemovido = p;
+                break;
+            }
+        }
+
+        if (photocardRemovido != null) {
+            listaPhotocards.remove(photocardRemovido);
+        }
+
+        return "redirect:/idol/" + photocardRemovido.getIdol().getId();
+    }
+
     //-----------------------------------------------------------------Wishlist
     @PostMapping("/adicionarAWishlist/{id}")
     public String adicionarAWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
@@ -236,6 +253,5 @@ public class PhotocardController {
     public String removerDaWishlist(@PathVariable Integer id) {
         listaDesejos.removeIf(photocard -> photocard.getId().equals(id));
         return "redirect:/wishlist";
-
     }
 }

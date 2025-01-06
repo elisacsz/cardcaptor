@@ -123,9 +123,14 @@
                                             <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
                                         </div>
 
-                                        <form th:action="@{/adicionarAWishlist/{id}(id=${photocard.id})}" method="post">
-                                            <button type="submit">+</button>
-                                        </form>
+                                        <div class="btn-container">
+                                            <form th:action="@{/adicionarAWishlist/{id}(id=${photocard.id})}" method="post">
+                                                <button type="submit">+</button>
+                                            </form>
+                                            <form th:action="@{/removerPhotocard/{id}(id=${photocard.id})}" method="post">
+                                                <button type="submit">X</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

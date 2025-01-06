@@ -105,13 +105,17 @@
                             <div th:if="${!#lists.isEmpty(wishlist)}" class="photocard-container">         
                                 <div th:each="photocard : ${wishlist}" class="photocard">
                                     <div>
-                                        <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
-                                        <div class="photocard-name">
-                                            <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
-                                        </div>
-                                        <form th:action="@{/removerDaWishlist/{id}(id=${photocard.id})}" method="post">
-                                            <button type="submit">X</button>
-                                        </form>
+
+                                        
+                                            <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
+                                            
+                                            <div class="photocard-name">                                                
+                                                <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
+                                            </div>
+                                            
+                                            <form th:action="@{/removerDaWishlist/{id}(id=${photocard.id})}" method="post">
+                                                <button type="submit">X</button>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
