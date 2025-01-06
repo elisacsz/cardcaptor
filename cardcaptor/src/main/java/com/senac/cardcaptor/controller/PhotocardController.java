@@ -207,7 +207,7 @@ public class PhotocardController {
         return "listaPhotocards";
     }
 
-    //---------------------------------------------------------Lista de Desejos
+    //-----------------------------------------------------------------Wishlist
     @PostMapping("/adicionarAWishlist/{id}")
     public String adicionarAWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Photocard photocardSelecionado = null;
@@ -232,4 +232,10 @@ public class PhotocardController {
         return "wishlist";
     }
 
+    @PostMapping("/removerDaWishlist/{id}")
+    public String removerDaWishlist(@PathVariable Integer id) {
+        listaDesejos.removeIf(photocard -> photocard.getId().equals(id));
+        return "redirect:/wishlist";
+
+    }
 }

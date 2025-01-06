@@ -109,9 +109,14 @@
                                         <div class="photocard-name">
                                             <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
                                         </div>
+                                        <form th:action="@{/removerDaWishlist/{id}(id=${photocard.id})}" method="post">
+                                            <button type="submit">X</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <div class="btn-container">
                                 <a th:href="@{/grupos}">
