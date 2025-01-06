@@ -78,7 +78,7 @@
                                         <img src="img/logo.png" alt="Logo do Cardcaptor!" width="300" />
                                     </div>
 
-                                    <h1 class="text-center mb-4">Cadastre um Photocard</h1>
+                                    <h1 class="text-center mb-4">Adicione um Photocard</h1>
 
                                     <form th:action="@{/salvar}" method="post" th:object="${photocard}">
                                         <div class="form-grid">
@@ -152,6 +152,25 @@
                                                 });
                                             }
                                         });
+
+                                        function validarLoja() {
+                                            const tipoSelecionado = selectTipo.value;
+                                            const tiposObrigatorios = ['pob', 'fansign', 'lucky_draw']; // Tipos que requerem a loja
+
+                                            // Verifique se o tipo selecionado está na lista de tipos obrigatórios
+                                            if (tiposObrigatorios.includes(tipoSelecionado)) {
+                                                inputLoja.setAttribute('required', true); // Torna o campo "loja" obrigatório
+                                            } else {
+                                                inputLoja.removeAttribute('required'); // Torna o campo "loja" opcional
+                                            }
+                                        }
+
+                                        // Adiciona o evento de mudança para o campo "tipo"
+                                        selectTipo.addEventListener('change', validarLoja);
+
+                                        // Chama a função de validação assim que a página carrega para garantir que, se um tipo já foi selecionado, a validação seja aplicada
+                                        validarLoja();
+
                                     </script>
                                 </div>
                             </body>
