@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author elisa
  */
 @Repository
-public interface ComentarioRepository extends JpaRepository<Comentario,Integer> {
-    
+public interface ComentarioRepository extends JpaRepository<Comentario, Integer> {
+
     List<Comentario> findByPhotocardId(Integer photocardId);
 }
