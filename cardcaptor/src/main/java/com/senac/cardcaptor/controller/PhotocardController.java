@@ -51,14 +51,14 @@ public class PhotocardController {
         listaIdols.add(new Idol(10, "Jungwoo", nct127));
         listaIdols.add(new Idol(11, "Mark", nct127));
         listaIdols.add(new Idol(12, "Haechan", nct127));
-    }
+    }*/
 
     @GetMapping("/")
     public String irParaInicio() {
         return "index";
     }
 
-    @GetMapping("/cadastro")
+    /*@GetMapping("/cadastro")
     public String exibirFormulario(Model model) {
         model.addAttribute("listaGrupos", listaGrupos);
         model.addAttribute("listaIdols", listaIdols);
@@ -143,43 +143,9 @@ public class PhotocardController {
     }
 
     //----------------------------------------------------------------Listas
-    //Listar grupos
-    @GetMapping("/grupos")
-    public String listarGrupos(Model model) {
-        model.addAttribute("listaGrupos", listaGrupos);
-        return "listaGrupos";
-    }
+    
 
-    //Listar membros do grupo selecionado
-    @GetMapping("/grupos/{id}")
-    public String listarIdolsPorGrupo(@PathVariable Integer id, Model model) {
-        Grupo grupoSelecionado = null;
-
-        for (Grupo grupo : listaGrupos) {
-            if (grupo.getId().equals(id)) {
-                grupoSelecionado = grupo;
-                break;
-            }
-        }
-
-        List<Idol> idolsGrupoSelecionado = new ArrayList<>();
-
-        if (grupoSelecionado != null) {
-            for (Idol idol : listaIdols) {
-                if (idol.getGrupo().getId().equals(id)) {
-                    idolsGrupoSelecionado.add(idol);
-                }
-            }
-
-            model.addAttribute("grupo", grupoSelecionado);
-            model.addAttribute("listaIdols", idolsGrupoSelecionado);
-        } else {
-            model.addAttribute("grupo", null);
-            model.addAttribute("listaIdols", new ArrayList<>());
-        }
-
-        return "listaIdols";
-    }
+    
 
     //Listar photocards    
     @GetMapping("/idol/{id}")
@@ -222,36 +188,6 @@ public class PhotocardController {
         }
 
         return "redirect:/idol/" + photocardRemovido.getIdol().getId();
-    }
-
-    //-----------------------------------------------------------------Wishlist
-    @PostMapping("/adicionarAWishlist/{id}")
-    public String adicionarAWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        Photocard photocardSelecionado = null;
-
-        for (Photocard photocard : listaPhotocards) {
-            if (photocard.getId().equals(id)) {
-                photocardSelecionado = photocard;
-                break;
-            }
-        }
-
-        if (photocardSelecionado != null) {
-            listaDesejos.add(photocardSelecionado);
-        }
-
-        return "redirect:/wishlist";
-    }
-
-    @GetMapping("/wishlist")
-    public String exibirWishlist(Model model) {
-        model.addAttribute("wishlist", listaDesejos);
-        return "wishlist";
-    }
-
-    @PostMapping("/removerDaWishlist/{id}")
-    public String removerDaWishlist(@PathVariable Integer id) {
-        listaDesejos.removeIf(photocard -> photocard.getId().equals(id));
-        return "redirect:/wishlist";
     }*/
+    
 }

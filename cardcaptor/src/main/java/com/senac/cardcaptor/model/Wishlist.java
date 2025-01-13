@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Wishlist")
+@Table(name = "wishlist")
 public class Wishlist {
 
     @Id

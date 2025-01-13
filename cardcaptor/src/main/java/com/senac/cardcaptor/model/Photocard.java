@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Photocard")
+@Table(name = "photocard")
 public class Photocard {
 
     @Id
