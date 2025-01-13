@@ -13,5 +13,4 @@ import org.springframework.stereotype.Repository;
 public interface PhotocardRepository extends JpaRepository<Photocard, Integer> {
 
     List<Photocard> findByIdolId(Integer idolId);
-
 }

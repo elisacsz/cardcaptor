@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComentarioRepository extends JpaRepository<Comentario, Integer> {
 
-    List<Comentario> findByPhotocardId(Integer photocardId);
+  List<Comentario> findByPhotocardId(Integer photocardId);
 }
