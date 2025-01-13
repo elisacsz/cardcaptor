@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PhotocardController {
 
-    private List<Grupo> listaGrupos;
+    /*private List<Grupo> listaGrupos;
     private List<Idol> listaIdols;
     private List<Photocard> listaPhotocards = new ArrayList<>();
     private List<Comentario> listaComentarios = new ArrayList<>();
@@ -253,5 +253,5 @@ public class PhotocardController {
     public String removerDaWishlist(@PathVariable Integer id) {
         listaDesejos.removeIf(photocard -> photocard.getId().equals(id));
         return "redirect:/wishlist";
-    }
+    }*/
 }
