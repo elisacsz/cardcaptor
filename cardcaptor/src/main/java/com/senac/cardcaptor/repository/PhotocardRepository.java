@@ -1,4 +1,3 @@
-
 package com.senac.cardcaptor.repository;
 
 import com.senac.cardcaptor.model.Photocard;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PhotocardRepository extends JpaRepository<Photocard, Integer> {
-    
+
     List<Photocard> findByIdolId(Integer idolId);
-    
+
 }
