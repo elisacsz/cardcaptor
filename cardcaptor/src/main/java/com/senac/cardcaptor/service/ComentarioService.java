@@ -26,11 +26,6 @@ public class ComentarioService {
         return comentario;
     }
 
-    public void excluir(Integer id) {
-        Comentario comentarioEncontrado = buscarPorId(id);
-        comentarioRepository.deleteById(comentarioEncontrado.getId());
-    }
-
     public List<Comentario> buscarTodosPeloIdPhotocard(Integer idPhotocard) {
         return comentarioRepository.findByPhotocardId(idPhotocard);
     }
