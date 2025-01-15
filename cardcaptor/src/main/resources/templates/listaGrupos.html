@@ -96,7 +96,7 @@
                                 <h1>Lista de Grupos</h1>
                                 <ul>
                                     <li th:each="grupo : ${listaGrupos}">
-                                        <a th:href="@{'/grupos/' + ${grupo.id}}" th:text="${grupo.nome}"></a>
+                                        <a th:href="@{'/grupos/' + ${grupo.id} + '/idols'}" th:text="${grupo.nome}"></a>
                                     </li>
                                 </ul>
 
