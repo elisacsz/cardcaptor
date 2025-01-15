@@ -27,11 +27,12 @@ public class PhotocardService {
     }
 
     public void excluir(Integer id) {
-        Photocard photocardEncontrado = buscarPorId(id);
-        photocardRepository.deleteById(photocardEncontrado.getId());
+        //Photocard photocardEncontrado = buscarPorId(id);
+        //photocardRepository.deleteById(photocardEncontrado.getId());
+        photocardRepository.deleteById(id);
     }
 
     public Photocard buscarPorId(Integer id) {
-        return photocardRepository.findById(id).orElseThrow();
+        return photocardRepository.findById(id).orElse(null);
     }
 }

@@ -1,193 +1,128 @@
 package com.senac.cardcaptor.controller;
 
+import com.senac.cardcaptor.dto.IdolDTO;
 import com.senac.cardcaptor.model.Comentario;
 import com.senac.cardcaptor.model.Grupo;
 import com.senac.cardcaptor.model.Idol;
 import com.senac.cardcaptor.model.Photocard;
-import com.senac.cardcaptor.model.TipoPhotocard;
+import com.senac.cardcaptor.service.ComentarioService;
+import com.senac.cardcaptor.service.GrupoService;
+import com.senac.cardcaptor.service.IdolService;
+import com.senac.cardcaptor.service.PhotocardService;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/photocards")
 public class PhotocardController {
 
-    /*private List<Grupo> listaGrupos;
-    private List<Idol> listaIdols;
-    private List<Photocard> listaPhotocards = new ArrayList<>();
-    private List<Comentario> listaComentarios = new ArrayList<>();
-    private List<Photocard> listaDesejos = new ArrayList<>();
-    private int proximoIdPhotocard = 1;
-    private int proximoIdComentario = 1;
+    @Autowired
+    PhotocardService photocardService;
 
-    public PhotocardController() {
-        listaGrupos = new ArrayList<>();
+    @Autowired
+    GrupoService grupoService;
 
-        Grupo aespa = new Grupo(1, "aespa");
-        Grupo nct127 = new Grupo(2, "NCT 127");
+    @Autowired
+    IdolService idolService;
 
-        listaGrupos.add(aespa);
-        listaGrupos.add(nct127);
-
-        listaIdols = new ArrayList<>();
-
-        listaIdols.add(new Idol(1, "Karina", aespa));
-        listaIdols.add(new Idol(2, "Giselle", aespa));
-        listaIdols.add(new Idol(3, "Winter", aespa));
-        listaIdols.add(new Idol(4, "Ningning", aespa));
-
-        listaIdols.add(new Idol(5, "Johnny", nct127));
-        listaIdols.add(new Idol(6, "Taeyong", nct127));
-        listaIdols.add(new Idol(7, "Yuta", nct127));
-        listaIdols.add(new Idol(8, "Doyoung", nct127));
-        listaIdols.add(new Idol(9, "Jaehyun", nct127));
-        listaIdols.add(new Idol(10, "Jungwoo", nct127));
-        listaIdols.add(new Idol(11, "Mark", nct127));
-        listaIdols.add(new Idol(12, "Haechan", nct127));
-    }*/
+    @Autowired
+    ComentarioService comentarioService;
 
     @GetMapping("/")
     public String irParaInicio() {
         return "index";
     }
 
-    /*@GetMapping("/cadastro")
+    //CADASTRO
+    @GetMapping("/cadastro")
     public String exibirFormulario(Model model) {
-        model.addAttribute("listaGrupos", listaGrupos);
-        model.addAttribute("listaIdols", listaIdols);
-        model.addAttribute("tiposPhotocard", TipoPhotocard.values());
+        List<Grupo> grupos = grupoService.listarGrupos();
+        List<Idol> idols = idolService.listarIdols();
+
         model.addAttribute("photocard", new Photocard());
+        model.addAttribute("grupos", grupos);
+        model.addAttribute("idols", idols);
         return "cadastro";
     }
 
     @PostMapping("/salvar")
-    public String processarFormulario(
-            @ModelAttribute Photocard photocard,
-            @RequestParam("grupoId") Integer grupoId,
-            @RequestParam("idolId") Integer idolId
-    ) {
-
-        Grupo grupo = null;
-        for (Grupo g : listaGrupos) {
-            if (g.getId().equals(grupoId)) {
-                grupo = g;
-                break;
-            }
-        }
-
-        Idol idol = null;
-        for (Idol i : listaIdols) {
-            if (i.getId().equals(idolId)) {
-                idol = i;
-                break;
-            }
-        }
-
-        if (grupo == null || idol == null) {
-            return "erro";
-        }
+    public String salvarPhotocard(@ModelAttribute Photocard photocard, @RequestParam("grupoId") Integer grupoId, @RequestParam("idolId") Integer idolId) {
+        Grupo grupo = grupoService.buscarGrupoPorId(grupoId);
+        Idol idol = idolService.buscarIdolPorId(idolId);
 
         photocard.setGrupo(grupo);
         photocard.setIdol(idol);
 
-        photocard.setId(proximoIdPhotocard++);
+        Photocard photocardSalvo = photocardService.criar(photocard);
 
-        listaPhotocards.add(photocard);
-
-        return "redirect:/photocard/" + photocard.getId();
+        return "redirect:/photocards/photocard/" + photocardSalvo.getId();
     }
 
-    //----------------------------------------------------------------Photocard
-    @GetMapping("/photocard/{id}")
-    public String detalhesPhotocard(@PathVariable Integer id, Model model) {
-        Photocard photocard = null;
-        for (Photocard p : listaPhotocards) {
-            if (p.getId().equals(id)) {
-                photocard = p;
-                break;
+    //PRA LISTAR OS IDOLS DE UM GRUPO ESPECIFICO
+    @GetMapping("/idolsPorGrupo")
+    @ResponseBody
+    public List<IdolDTO> listarIdolsPorGrupo(@RequestParam(required = false) Integer grupoId) {
+        if (grupoId == null) {
+            return Collections.emptyList();
+        }
+
+        List<Idol> idols = idolService.listarIdolsPorGrupo(grupoId);
+
+        List<IdolDTO> idolDTOs = new ArrayList<>();
+
+        if (idols != null) {
+            for (Idol idol : idols) {
+                if (idol != null) {
+                    IdolDTO idolDTO = new IdolDTO(idol.getId(), idol.getNome());
+                    idolDTOs.add(idolDTO);
+                }
             }
         }
 
-        model.addAttribute("photocard", photocard);
-        model.addAttribute("listaIdols", listaIdols);
-        model.addAttribute("listaGrupos", listaGrupos);
-        model.addAttribute("listaComentarios", listaComentarios != null ? listaComentarios : new ArrayList<>());
-        model.addAttribute("novoComentario", new Comentario());
+        return idolDTOs;
+    }
 
+    
+    //MOSTRAR DETALHES DO PC
+    @GetMapping("/photocard/{id}")
+    public String detalhesPhotocard(@PathVariable Integer id, Model model) {
+        Photocard photocard = photocardService.buscarPorId(id);
+
+        if (photocard != null) {
+            List<Comentario> comentarios = comentarioService.listarComentariosPorPhotocard(photocard.getId());
+            model.addAttribute("photocard", photocard);
+            model.addAttribute("listaComentarios", comentarios);
+            model.addAttribute("novoComentario", new Comentario());
+        } else {
+            model.addAttribute("errorMessage", "Photocard não encontrado."); // Mensagem de erro
+        }
         return "photocard";
     }
 
-    @PostMapping("/comentar/{photocardId}")
-    public String comentar(@PathVariable Integer photocardId, @ModelAttribute Comentario novoComentario) {
-        Photocard photocard = null;
-        for (Photocard p : listaPhotocards) {
-            if (p.getId().equals(photocardId)) {
-                photocard = p;
-                break;
-            }
-        }
-
-        if (photocard != null) {
-            novoComentario.setPhotocard(photocard);
-            listaComentarios.add(novoComentario);
-        }
-
-        return "redirect:/photocard/" + photocard.getId();
-    }
-
-    //----------------------------------------------------------------Listas
-    
-
-    
-
-    //Listar photocards    
-    @GetMapping("/idol/{id}")
-    public String listarPhotocardsPorIdol(@PathVariable Integer id, Model model) {
-        Idol idolSelecionado = null;
-        List<Photocard> photocardsIdolSelecionado = new ArrayList<>();
-
-        for (Idol idol : listaIdols) {
-            if (idol.getId().equals(id)) {
-                idolSelecionado = idol;
-                break;
-            }
-        }
-
-        if (idolSelecionado != null) {
-            for (Photocard photocard : listaPhotocards) {
-                if (photocard.getIdol().getId().equals(id)) {
-                    photocardsIdolSelecionado.add(photocard);
-                }
-            }
-            model.addAttribute("idol", idolSelecionado);
-            model.addAttribute("listaPhotocards", photocardsIdolSelecionado);
-        }
-
+    /*//LISTAR
+    @GetMapping("/lista")
+    public String listarPhotocards(Model model) {
+        List<Photocard> photocards = photocardService.buscarTodos();
+        model.addAttribute("photocards", photocards);
         return "listaPhotocards";
     }
 
+    //REMOVER    
     @PostMapping("/removerPhotocard/{id}")
     public String removerPhotocard(@PathVariable Integer id) {
-        Photocard photocardRemovido = null;
-        for (Photocard p : listaPhotocards) {
-            if (p.getId().equals(id)) {
-                photocardRemovido = p;
-                break;
-            }
-        }
-
-        if (photocardRemovido != null) {
-            listaPhotocards.remove(photocardRemovido);
-        }
+        photocardService.excluir(id);
 
         return "redirect:/idol/" + photocardRemovido.getIdol().getId();
     }*/
-    
 }

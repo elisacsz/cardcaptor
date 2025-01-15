@@ -17,7 +17,7 @@ public class ComentarioService {
     ComentarioRepository comentarioRepository;
 
     public Comentario buscarPorId(Integer id) {
-        return comentarioRepository.findById(id).orElseThrow();
+        return comentarioRepository.findById(id).orElse(null);
     }
 
     public Comentario criar(Comentario comentario) {
@@ -26,8 +26,8 @@ public class ComentarioService {
         return comentario;
     }
 
-    public List<Comentario> buscarTodosPeloIdPhotocard(Integer idPhotocard) {
-        return comentarioRepository.findByPhotocardId(idPhotocard);
+    public List<Comentario> listarComentariosPorPhotocard(Integer photocardId) {
+        return comentarioRepository.findByPhotocardId(photocardId);
     }
 
 }

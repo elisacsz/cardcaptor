@@ -20,7 +20,7 @@ public class IdolService {
         return idolRepository.findByGrupoId(grupoId);
     }
 
-    public List<Idol> listarTodosIdols() {
+    public List<Idol> listarIdols() {
         return idolRepository.findAll();
     }
 

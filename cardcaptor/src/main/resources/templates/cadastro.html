@@ -21,14 +21,6 @@
                                     text-align: center;
                                 }
 
-                                .logo {
-                                    display: flex;
-                                    justify-content: center;
-                                    text-align: center;
-                                    margin-top: -50px;
-                                    width: 100%;
-                                }
-
                                 h1 {
                                     color: #fbaac5;
                                     font-weight: bold;
@@ -74,13 +66,14 @@
 
                             <body>
                                 <div class="container mt-5">
-                                    <div class="logo">
-                                        <img src="img/logo.png" alt="Logo do Cardcaptor!" width="300" />
+                                    
+                                    <div class="text-center">
+                                        <img th:src="@{/img/logo.png}" alt="Logo do Cardcaptor!" width="300"/>
                                     </div>
 
                                     <h1 class="text-center mb-4">Adicione um Photocard</h1>
 
-                                    <form th:action="@{/salvar}" method="post" th:object="${photocard}">
+                                    <form th:action="@{/photocards/salvar}" method="post" th:object="${photocard}">
                                         <div class="form-grid">
 
                                             <div>
@@ -113,7 +106,7 @@
                                                     <label for="grupoId">Grupo</label>
                                                     <select id="selectGrupo" name="grupoId" class="form-control" required>
                                                         <option value="">Selecione um Grupo</option>
-                                                        <option th:each="grupo : ${listaGrupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
+                                                        <option th:each="grupo : ${grupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
                                                     </select>
                                                 </div>
                                                 <div class="formulario">
@@ -131,28 +124,32 @@
                                                 <button type="button" style="margin-top: 20px">Início</button>
                                             </a>
                                         </div>
-                                    </form>
-
-                                    <script th:inline="javascript">
-                                        const todosIdols = /*[[${listaIdols}]]*/ [];
-                                        const selectGrupo = document.getElementById('selectGrupo');
-                                        const selectIdol = document.getElementById('selectIdol');
-
-                                        selectGrupo.addEventListener('change', function () {
-                                            const grupoId = parseInt(this.value);
-                                            selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
-
-                                            if (grupoId) {
-                                                const idolsFiltrados = todosIdols.filter(idol => idol.grupo.id === grupoId);
-                                                idolsFiltrados.forEach(idol => {
-                                                    const option = document.createElement('option');
-                                                    option.value = idol.id;
-                                                    option.text = idol.nome;
-                                                    selectIdol.appendChild(option);
-                                                });
-                                            }
-                                        });
-                                    </script>
+                                    </form>                                   
                                 </div>
+
+                                <script th:inline="javascript">
+                                    const selectGrupo = document.getElementById('selectGrupo');
+                                    const selectIdol = document.getElementById('selectIdol');
+
+                                    selectGrupo.addEventListener('change', () => {
+                                        const grupoId = selectGrupo.value;
+                                        selectIdol.innerHTML = '<option value="">Selecione um Idol</option>'; // Limpa as opções
+
+                                        if (grupoId) {
+                                            fetch(`/photocards/idolsPorGrupo?grupoId=${grupoId}`)
+                                                    .then(r => r.json())
+                                                    .then(idols => {
+                                                        idols.forEach(idol => {
+                                                            selectIdol.appendChild(new Option(idol.nome, idol.id));
+                                                        });
+                                                        selectIdol.disabled = false;
+                                                    });
+                                        } else {
+                                            selectIdol.disabled = true;
+                                        }
+                                    });
+                                    selectIdol.disabled = true;
+                                </script>
+
                             </body>
                             </html>
