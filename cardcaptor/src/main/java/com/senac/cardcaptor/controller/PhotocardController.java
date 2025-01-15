@@ -93,7 +93,6 @@ public class PhotocardController {
         return idolDTOs;
     }
 
-    
     //MOSTRAR DETALHES DO PC
     @GetMapping("/photocard/{id}")
     public String detalhesPhotocard(@PathVariable Integer id, Model model) {
@@ -110,13 +109,9 @@ public class PhotocardController {
         return "photocard";
     }
 
-    /*//LISTAR
-    @GetMapping("/lista")
-    public String listarPhotocards(Model model) {
-        List<Photocard> photocards = photocardService.buscarTodos();
-        model.addAttribute("photocards", photocards);
-        return "listaPhotocards";
-    }
+}
+
+    /*
 
     //REMOVER    
     @PostMapping("/removerPhotocard/{id}")
@@ -125,4 +120,4 @@ public class PhotocardController {
 
         return "redirect:/idol/" + photocardRemovido.getIdol().getId();
     }*/
-}
+

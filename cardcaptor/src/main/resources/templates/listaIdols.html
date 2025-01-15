@@ -102,7 +102,7 @@
 
                                 <ul>
                                     <li th:each="idol : ${listaIdols}">
-                                        <a th:href="@{'/idol/' + ${idol.id}}" th:text="${idol.nome}"></a>
+                                        <a th:href="@{'/idols/' + ${idol.id} + '/photocards'}" th:text="${idol.nome}"></a>
                                     </li>
                                 </ul>
 

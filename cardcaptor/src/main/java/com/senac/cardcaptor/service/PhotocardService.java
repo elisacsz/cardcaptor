@@ -22,8 +22,12 @@ public class PhotocardService {
         return photocard;
     }
 
-    public List<Photocard> buscarTodos() {
-        return photocardRepository.findAll();
+    public Photocard buscarPorId(Integer id) {
+        return photocardRepository.findById(id).orElse(null);
+    }
+
+    public List<Photocard> listarPhotocardsPorIdol(Integer idolId) {
+        return photocardRepository.findByIdolId(idolId);
     }
 
     public void excluir(Integer id) {
@@ -32,7 +36,4 @@ public class PhotocardService {
         photocardRepository.deleteById(id);
     }
 
-    public Photocard buscarPorId(Integer id) {
-        return photocardRepository.findById(id).orElse(null);
-    }
 }
