@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *
@@ -56,5 +57,16 @@ public class IdolController {
         model.addAttribute("idol", idol);
         model.addAttribute("listaPhotocards", listaPhotocards);
         return "listaPhotocards";
+    }
+
+    //REMOVER PHOTOCARD
+    @PostMapping("/removerPhotocard/{id}")
+    public String removerPhotocard(@PathVariable Integer id) {
+        Photocard photocard = photocardService.buscarPorId(id);
+
+        Integer idolId = photocard.getIdol().getId();
+        photocardService.excluir(id);
+        return "redirect:/idols/" + idolId + "/photocards";
+
     }
 }

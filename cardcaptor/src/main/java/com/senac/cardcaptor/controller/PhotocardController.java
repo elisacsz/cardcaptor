@@ -109,15 +109,5 @@ public class PhotocardController {
         return "photocard";
     }
 
+
 }
-
-    /*
-
-    //REMOVER    
-    @PostMapping("/removerPhotocard/{id}")
-    public String removerPhotocard(@PathVariable Integer id) {
-        photocardService.excluir(id);
-
-        return "redirect:/idol/" + photocardRemovido.getIdol().getId();
-    }*/
-
