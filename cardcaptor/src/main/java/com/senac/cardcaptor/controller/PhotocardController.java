@@ -98,16 +98,12 @@ public class PhotocardController {
     public String detalhesPhotocard(@PathVariable Integer id, Model model) {
         Photocard photocard = photocardService.buscarPorId(id);
 
-        if (photocard != null) {
-            List<Comentario> comentarios = comentarioService.listarComentariosPorPhotocard(photocard.getId());
-            model.addAttribute("photocard", photocard);
-            model.addAttribute("listaComentarios", comentarios);
-            model.addAttribute("novoComentario", new Comentario());
-        } else {
-            model.addAttribute("errorMessage", "Photocard não encontrado."); // Mensagem de erro
-        }
+        List<Comentario> comentarios = comentarioService.listarComentariosPorPhotocard(photocard.getId());
+        model.addAttribute("photocard", photocard);
+        model.addAttribute("listaComentarios", comentarios);
+        model.addAttribute("novoComentario", new Comentario());
+
         return "photocard";
     }
-
 
 }

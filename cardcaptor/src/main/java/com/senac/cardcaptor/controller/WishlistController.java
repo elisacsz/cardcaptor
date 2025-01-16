@@ -26,7 +26,6 @@ public class WishlistController {
 
     @Autowired
     private WishlistRepository wishlistRepository;
-   
 
     @PostMapping("/adicionarAWishlist/{id}")
     public String adicionarAWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
@@ -48,21 +47,8 @@ public class WishlistController {
             wishlist.setPhotocards(new ArrayList<>());
             photocards = wishlist.getPhotocards();
         }
-
-        boolean jaExiste = false;
-        for (Photocard p : photocards) {
-            if (p.equals(photocard)) {
-                break;
-            }
-        }
-
-        if (!jaExiste) {
-            photocards.add(photocard);
-            wishlistRepository.save(wishlist);
-            redirectAttributes.addFlashAttribute("mensagem", "Photocard adicionado à Wishlist!");
-        } else {
-            redirectAttributes.addFlashAttribute("mensagem", "Photocard já está na Wishlist!");
-        }
+        photocards.add(photocard);
+        wishlistRepository.save(wishlist);
         Integer idolId = photocard.getIdol().getId();
         return "redirect:/idols/" + idolId + "/photocards";
     }
@@ -76,5 +62,23 @@ public class WishlistController {
         }
         model.addAttribute("wishlist", wishlist.getPhotocards());
         return "wishlist";
+    }
+    
+     @PostMapping("/removerPhotocardWishlist/{id}")
+    public String removerPhotocardWishlist(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Wishlist wishlist = wishlistRepository.findFirstBy();
+        if (wishlist == null) {
+            return "redirect:/wishlist";
+        }
+
+        Photocard photocard = photocardService.buscarPorId(id);
+
+        List<Photocard> photocards = wishlist.getPhotocards();
+        if (photocards != null) {
+            photocards.remove(photocard);
+            wishlistRepository.save(wishlist);
+        }
+
+        return "redirect:/wishlist";
     }
 }

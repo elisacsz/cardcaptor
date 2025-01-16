@@ -31,8 +31,6 @@ public class PhotocardService {
     }
 
     public void excluir(Integer id) {
-        //Photocard photocardEncontrado = buscarPorId(id);
-        //photocardRepository.deleteById(photocardEncontrado.getId());
         photocardRepository.deleteById(id);
     }
 

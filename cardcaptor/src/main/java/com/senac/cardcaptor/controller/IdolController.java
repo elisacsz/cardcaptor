@@ -63,10 +63,8 @@ public class IdolController {
     @PostMapping("/removerPhotocard/{id}")
     public String removerPhotocard(@PathVariable Integer id) {
         Photocard photocard = photocardService.buscarPorId(id);
-
         Integer idolId = photocard.getIdol().getId();
         photocardService.excluir(id);
         return "redirect:/idols/" + idolId + "/photocards";
-
     }
 }
