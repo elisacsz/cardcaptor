@@ -119,11 +119,11 @@
                             </div>    
 
                             <div class="photocard-container">           
-                                <div th:each="photocard : ${listaPhotocards}" class="photocard">
+                                <div th:each="photocard : ${listaPhotocards}" class="photocard">                                    
                                     <div>
                                         <img th:src="@{${photocard.foto}}" alt="Foto do Photocard" />
                                         <div class="photocard-name">
-                                            <span th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></span>
+                                            <p th:text="${photocard.nome} + ' ' + ${photocard.tipo} + ' ' + ${photocard.loja}"></p>
                                         </div>
 
                                         <div class="btn-container">

@@ -4,7 +4,9 @@ import com.senac.cardcaptor.model.Photocard;
 import com.senac.cardcaptor.model.Wishlist;
 import com.senac.cardcaptor.repository.WishlistRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,10 @@ public class WishlistService {
     @Autowired
     private WishlistRepository wishlistRepository;
 
-    private Wishlist wishlist; 
+    @Autowired
+    private PhotocardService photocardService;
+
+    private Wishlist wishlist;
 
     @PostConstruct
     public void init() {

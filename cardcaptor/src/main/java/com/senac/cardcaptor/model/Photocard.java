@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,8 @@ public class Photocard {
     @ManyToOne
     @JoinColumn(name = "idol_id", nullable = false)
     private Idol idol;
-    
+
     @OneToMany(mappedBy = "photocard")
     private List<Comentario> comentarios;
+
 }
