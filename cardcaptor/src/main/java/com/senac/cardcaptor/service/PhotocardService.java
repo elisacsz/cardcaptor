@@ -33,5 +33,4 @@ public class PhotocardService {
     public void excluir(Integer id) {
         photocardRepository.deleteById(id);
     }
-
 }

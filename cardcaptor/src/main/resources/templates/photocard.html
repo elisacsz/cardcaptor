@@ -156,16 +156,17 @@
                                         <p>Photocard não encontrado.</p>
                                     </div>
 
-                                    <h2>Adicionar Comentário</h2>
+                                    <h2>Comentários</h2>
 
                                     <form id="formComentario" th:action="@{/comentarios/comentar/{photocardId}(photocardId=${photocard.id})}" method="post" th:object="${novoComentario}">
-                                        <label for="analise">Comente suas dúvidas ou outras informações sobre esse photocard para outros collectors!</label><br>
+                                        <label for="analise">Adicione comentários ou observações sobre o photocard aqui!</label><br>
                                             <textarea id="textoComentario" th:field="*{comentario}" rows="4" cols="50"></textarea><br>
 
                                                 <div id="mensagemErroJs" class="mensagem-erro-js"></div>
 
                                                 <div class="botoes-container">
                                                     <button type="button" onclick="validarComentario()">Comentar</button>
+                                                    <button type="button" onclick="history.back()">Voltar</button>
                                                     <button type="button" onclick="window.location.href = '/'">Início</button>
                                                 </div>
                                                 </form>

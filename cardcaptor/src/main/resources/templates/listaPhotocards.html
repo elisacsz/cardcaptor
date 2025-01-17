@@ -34,7 +34,7 @@
 
                                 .photocard-container {
                                     display: grid;
-                                    grid-template-columns: repeat(6, 1fr);
+                                    grid-template-columns: repeat(5, 1fr);
                                     gap: 20px;
                                     margin-bottom: 20px;
                                 }
@@ -90,7 +90,7 @@
                                     justify-content: center;
                                 }
 
-                                button {                                    
+                                button {
                                     background-color: #fbaac5;
                                     color: white;
                                     border: none;
@@ -148,8 +148,15 @@
                                                 </form>
 
                                                 <form th:action="@{/removerPhotocard/{id}(id=${photocard.id})}" method="post">
+                                                    <input type="hidden" name="idolId" th:value="${idol.id}" /> 
                                                     <button type="submit" style="margin-top: -5px;">
-                                                        <i class="bi bi-trash"></i>
+                                                        <i class="bi bi-trash"></i></button>
+                                                    </button>
+                                                </form>
+
+                                                <form th:action="@{/photocards/photocard/{id}(id=${photocard.id})}" method="get">
+                                                    <button type="submit" style="margin-top: -5px;">
+                                                        <i class="bi bi-plus"></i>
                                                     </button>
                                                 </form>
 
@@ -165,13 +172,51 @@
                                 </div>
 
                                 <div class="btn-container">
+
+                                    <button type="button" onclick="history.back()">Voltar</button>
+
                                     <a th:href="@{/grupos}">
                                         <button type="button">Grupos</button>
                                     </a>
-                                    <br>
-                                        <a th:href="@{/}">
-                                            <button type="button">Início</button>
-                                        </a>
+
+                                    <a th:href="@{/}">
+                                        <button type="button">Início</button>
+                                    </a>
+
                                 </div>
-                            </body>
+
+                                <div class="modal fade" id="alertModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Ei!</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" id="modalBody" th:if="${mensagemErro != null or mensagemSucesso != null}">
+                                                <p th:if="${mensagemErro}" th:text="${mensagemErro}"></p>
+                                                <p th:if="${mensagemSucesso}" th:text="${mensagemSucesso}"></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #fbaac5; color: white; border-color: #fbaac5;">Ok!</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> 
+                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                <script th:inline="javascript">
+                                                                    $(document).ready(function () {
+                                                                    const mensagemErro = /*[[ ${mensagemErro} ]]*/;
+                                                                    const mensagemSucesso = /*[[ ${mensagemSucesso} ]]*/;
+                                                                    const modal = $('#alertModal');
+                                                                    if (mensagemErro || mensagemSucesso) {
+                                                                    modal.modal('show');
+                                                                    }
+                                                                    });
+                                </script>
+                            </body>  
                             </html>

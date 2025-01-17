@@ -66,7 +66,7 @@
 
                             <body>
                                 <div class="container mt-5">
-                                    
+
                                     <div class="text-center">
                                         <img th:src="@{/img/logo.png}" alt="Logo do Cardcaptor!" width="300"/>
                                     </div>
@@ -79,8 +79,10 @@
                                             <div>
                                                 <div class="formulario">
                                                     <label for="nome">Nome</label>
-                                                    <input type="text" id="nome" class="form-control" th:field="*{nome}" required/>
+                                                    <input type="text" id="nome" maxlength="30" class="form-control" th:field="*{nome}" required/>
+                                                    <span id="contadorCaracteres">Caracteres restantes: 30</span>                                                    
                                                 </div>
+
                                                 <div class="formulario">
                                                     <label for="tipo">Tipo</label>
                                                     <select id="tipo" class="form-control" th:field="*{tipo}" required>
@@ -91,17 +93,21 @@
                                                         </option>
                                                     </select>
                                                 </div>
+
                                                 <div class="formulario">
                                                     <label for="loja">Loja</label>
-                                                    <input type="text" id="loja" class="form-control" th:field="*{loja}" />
+                                                    <input type="text" id="loja" maxlength="20" class="form-control" th:field="*{loja}" />
+                                                    <span id="contadorCaracteresLoja">Caracteres restantes: 20</span> 
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div class="formulario">
-                                                    <label for="foto">Foto (Insira a URL de uma imagem)</label>
+                                                    <label for="foto">Foto</label>
                                                     <input type="text" id="foto" class="form-control" name="foto" required />
+                                                    <p>Insira a URL de uma imagem</p>
                                                 </div>
+
                                                 <div class="formulario">
                                                     <label for="grupoId">Grupo</label>
                                                     <select id="selectGrupo" name="grupoId" class="form-control" required>
@@ -109,12 +115,14 @@
                                                         <option th:each="grupo : ${grupos}" th:value="${grupo.id}" th:text="${grupo.nome}"></option>
                                                     </select>
                                                 </div>
+
                                                 <div class="formulario">
                                                     <label for="idolId">Idol</label>
                                                     <select id="selectIdol" name="idolId" class="form-control" required>
                                                         <option value="">Selecione um Idol</option>
                                                     </select>
                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -124,6 +132,7 @@
                                                 <button type="button" style="margin-top: 20px">Início</button>
                                             </a>
                                         </div>
+
                                     </form>                                   
                                 </div>
 
@@ -133,7 +142,7 @@
 
                                     selectGrupo.addEventListener('change', () => {
                                         const grupoId = selectGrupo.value;
-                                        selectIdol.innerHTML = '<option value="">Selecione um Idol</option>'; // Limpa as opções
+                                        selectIdol.innerHTML = '<option value="">Selecione um Idol</option>';
 
                                         if (grupoId) {
                                             fetch(`/photocards/idolsPorGrupo?grupoId=${grupoId}`)
@@ -148,7 +157,26 @@
                                             selectIdol.disabled = true;
                                         }
                                     });
+
                                     selectIdol.disabled = true;
+
+                                    const nomeInput = document.getElementById('nome');
+                                    const contadorCaracteres = document.getElementById('contadorCaracteres');
+
+                                    nomeInput.addEventListener('input', () => {
+                                        const caracteresDigitados = nomeInput.value.length;
+                                        const caracteresRestantes = 30 - caracteresDigitados;
+                                        contadorCaracteres.textContent = `Caracteres restantes: ${caracteresRestantes}`;
+                                    });
+
+                                    const lojaInput = document.getElementById('loja');
+                                    const contadorCaracteresLoja = document.getElementById('contadorCaracteresLoja');
+
+                                    lojaInput.addEventListener('input', () => {
+                                        const caracteresDigitados = lojaInput.value.length;
+                                        const caracteresRestantes = 20 - caracteresDigitados;
+                                        contadorCaracteresLoja.textContent = `Caracteres restantes: ${caracteresRestantes}`;
+                                    });
                                 </script>
 
                             </body>

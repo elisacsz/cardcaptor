@@ -8,11 +8,14 @@ import com.senac.cardcaptor.service.IdolService;
 import com.senac.cardcaptor.service.PhotocardService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -61,10 +64,12 @@ public class IdolController {
 
     //REMOVER PHOTOCARD
     @PostMapping("/removerPhotocard/{id}")
-    public String removerPhotocard(@PathVariable Integer id) {
-        Photocard photocard = photocardService.buscarPorId(id);
-        Integer idolId = photocard.getIdol().getId();
-        photocardService.excluir(id);
+    public String removerPhotocard(@PathVariable Integer id, @RequestParam("idolId") Integer idolId, RedirectAttributes redirectAttributes) {
+        try {
+            photocardService.excluir(id);
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Você precisa remover o photocard da sua Wishlist antes de excluir :)");
+        }
         return "redirect:/idols/" + idolId + "/photocards";
     }
 }
